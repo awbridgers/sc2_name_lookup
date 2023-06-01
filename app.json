@@ -1,9 +1,11 @@
 {
   "expo": {
-    "name": "sc2-name-lookup",
+    "name": "SC2 Name Scanner",
     "slug": "sc2-name-lookup",
+    "jsEngine": "jsc",
     "version": "1.0.0",
     "orientation": "portrait",
+    "primaryColor": "#000000",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
@@ -15,16 +17,29 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.awbridgers.sc2namelookup"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.awbridgers.sc2namelookup"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "28f59cf2-4d8b-4bea-8ba4-7f6739682528"
+      }
+    },
+    "plugins": [
+      [
+        "./kotlin-version-plugin",
+        "1.6.0"
+      ]
+    ]
   }
 }
