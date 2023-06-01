@@ -151,60 +151,64 @@ export default function Home({navigation}: Props) {
 
   return (
     <View style={styles.container}>
-      <Modal visible={loading} animationType="fade" transparent={true}>
-        <View style={styles.loading}>
-          <ActivityIndicator size={Platform.OS === 'android' ? 150 : 'large'} />
-        </View>
-      </Modal>
-      <Modal
-        visible={showModal}
-        animationType="slide"
-        style={styles.modal}
-        transparent={false}
-      >
-        <Camera
-          type={CameraType.back}
-          ref={cameraRef}
-          onCameraReady={() => setReady(true)}
-          style={styles.camera}
-        />
-
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button} onPress={() => takePic()}>
-            <Text>Take Photo</Text>
-          </TouchableOpacity>
+      <View style = {styles.titleView}>
+        <Text style = {styles.title}>SC2 Name Search</Text>
+      </View>
+      <View style = {styles.bodyView}>
+        <Modal visible={loading} animationType="fade" transparent={true}>
+          <View style={styles.loading}>
+            <ActivityIndicator size={Platform.OS === 'android' ? 150 : 'large'} />
+          </View>
+        </Modal>
+        <Modal
+          visible={showModal}
+          animationType="slide"
+          style={styles.modal}
+          transparent={false}
+        >
+          <Camera
+            type={CameraType.back}
+            ref={cameraRef}
+            onCameraReady={() => setReady(true)}
+            style={styles.camera}
+          />
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity style={styles.button} onPress={() => takePic()}>
+              <Text>Take Photo</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => setShowModal(false)}
+            >
+              <Text>Cancel</Text>
+            </TouchableOpacity>
+          </View>
+        </Modal>
+        <View style={styles.toggleCamera}>
           <TouchableOpacity
-            style={styles.button}
-            onPress={() => setShowModal(false)}
+            style={styles.cameraButton}
+            onPress={() => setShowModal(!showModal)}
           >
-            <Text>Cancel</Text>
+            <Text style={{fontSize: 20}}>Toggle Camera</Text>
           </TouchableOpacity>
         </View>
-      </Modal>
-      <View style={styles.toggleCamera}>
-        <TouchableOpacity
-          style={styles.cameraButton}
-          onPress={() => setShowModal(!showModal)}
-        >
-          <Text style={{fontSize: 20}}>Toggle Camera</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.spacer}>
-        <Text style={styles.name}>-OR-</Text>
-      </View>
-      <View style={styles.search}>
-        <Text style={styles.name}>Enter a name or BattleNet ID</Text>
-        <TextInput
-          onChangeText={setName}
-          style={styles.searchBar}
-          value={name}
-        />
-        <TouchableOpacity
-          onPress={() => getData(name)}
-          style={styles.cameraButton}
-        >
-          <Text style={{fontSize: 20}}>Search</Text>
-        </TouchableOpacity>
+        <View style={styles.spacer}>
+          <Text style={styles.name}>-OR-</Text>
+        </View>
+        <View style={styles.search}>
+          <Text style={styles.name}>Enter a name or BattleNet ID</Text>
+          <TextInput
+            onChangeText={setName}
+            style={styles.searchBar}
+            value={name}
+          />
+          <TouchableOpacity
+            onPress={() => getData(name)}
+            style={styles.cameraButton}
+          >
+            <Text style={{fontSize: 20}}>Search</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
@@ -214,7 +218,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#001F42',
-    justifyContent: 'center',
+    justifyContent: 'space-around',
     //paddingTop: Platform.OS === 'android' ? 25 : 0,
   },
   loading: {
@@ -283,5 +287,21 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     margin: 25,
+  },
+  title:{
+    color: '#00B4FF',
+    fontSize: 40,
+  },
+  titleView:{
+    alignItems: 'center',
+    //backgroundColor: 'orange',
+    justifyContent: 'center',
+    flex: 2
+  },
+  bodyView:{
+    //backgroundColor: 'green',
+    justifyContent: 'flex-start',
+    flex: 5,
+    
   },
 });
