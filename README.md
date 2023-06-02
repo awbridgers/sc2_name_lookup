@@ -4,7 +4,7 @@
 A react native app to search for starcraft2 users and display information about their account. 
 
 ---
-<img src = './images/homeScreen.png' width = '50%' height = '50%'/>
+<img src = './images/homeScreen.png' width = '30%' height = '30%'/>
 
 ### How To Use
   * Enter the SC2 username or BattleNet ID into the search bar to search for a player
@@ -20,7 +20,7 @@ A react native app to search for starcraft2 users and display information about 
   * Current League
   * Career High League
   * Race by Race League and Win-Loss Ratio
-  <img src = './images/exampleData.png' width = '50%' height = '50%'/>
+  <img src = './images/exampleData.png' width = '30%' height = '30%'/>
 
   ### Author
   Adam Bridgers
