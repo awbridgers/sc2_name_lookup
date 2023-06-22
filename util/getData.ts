@@ -13,12 +13,8 @@ export const getReplayStatsData = async (name: string): Promise<number> => {
       body: `${encodeURIComponent('players_name')}=${encodeURIComponent(
         name
       )}&${encodeURIComponent('server')}=${encodeURIComponent('us')}`,
-    }).catch((e) => {
-      throw e;
-    });
-    const {items} = await data.json().catch((e) => {
-      throw e;
-    });
+    })
+    const {items} = await data.json()
 
     if (items.length > 1) {
       throw new FetchError(

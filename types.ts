@@ -9,14 +9,15 @@ export interface FetchError extends Error{
 }
 
 type gameType = '1v1' | '2v2' | '3v3' | '4v4' | 'Archon';
-type league =
+export type league =
   | 'BRONZE'
   | 'SILVER'
   | 'GOLD'
   | 'PLATINUM'
   | 'DIAMOND'
   | 'MASTER'
-  | 'GRANDMASTER';
+  | 'GRANDMASTER'
+  | 'null'
 export type race = 'terran' | 'zerg' | 'protoss'| 'random';
 export type raceImage = {
   [key in race] : ImageSourcePropType

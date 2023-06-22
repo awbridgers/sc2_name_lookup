@@ -24,6 +24,7 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {Data, FetchError, RootStackParamsList} from '../types';
 import {getBattleNetStats, getReplayStatsData} from '../util/getData';
 import { fixName } from '../util/fixName';
+import { useToken } from '../hooks/useToken';
 
 type Props = NativeStackScreenProps<RootStackParamsList, 'Home'>;
 
@@ -32,11 +33,11 @@ export default function Home({navigation}: Props) {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [ready, setReady] = useState<boolean>(false);
   const [data, setData] = useState<string[]>([]);
-  const [token, setToken] = useState<string | null>(null);
   const [name, setName] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const cameraRef = useRef<Camera>(null);
   const prevData = useRef<Data | null>(null);
+  const token = useToken(clientID, secret);
 
   const takePic = async () => {
     if (permission && permission.granted) {
@@ -120,34 +121,9 @@ export default function Home({navigation}: Props) {
       requestPermission();
     }
   }, [permission]);
-  useEffect(()=>{
-    setLoading(false)
-  },[])
 
-  //get the token for the API
-  useEffect(() => {
-    if (!token) {
-      const getToken = async () => {
-        try {
-          const data = await fetch('https://oauth.battle.net/token', {
-            method: 'post',
-            body: `${encodeURIComponent('grant_type')}=${encodeURIComponent(
-              'client_credentials'
-            )}`,
-            headers: {
-              Authorization: `Basic ${base64.encode(`${clientID}:${secret}`)}`,
-              'Content-Type': 'application/x-www-form-urlencoded',
-            },
-          });
-          const res = await data.json();
-          setToken(res.access_token);
-        } catch (e) {
-          console.log(e);
-        }
-      };
-      getToken();
-    }
-  }, [token]);
+
+  
 
   return (
     <View style={styles.container}>
@@ -155,9 +131,9 @@ export default function Home({navigation}: Props) {
         <Text style = {styles.title}>SC2 Name Search</Text>
       </View>
       <View style = {styles.bodyView}>
-        <Modal visible={loading} animationType="fade" transparent={true}>
+        <Modal testID = 'loading' visible={loading} animationType="fade" transparent={true}>
           <View style={styles.loading}>
-            <ActivityIndicator size={Platform.OS === 'android' ? 150 : 'large'} />
+            <ActivityIndicator testID = 'spinner' size={Platform.OS === 'android' ? 150 : 'large'} />
           </View>
         </Modal>
         <Modal
@@ -201,6 +177,7 @@ export default function Home({navigation}: Props) {
             onChangeText={setName}
             style={styles.searchBar}
             value={name}
+            placeholder='Enter name here'
           />
           <TouchableOpacity
             onPress={() => getData(name)}

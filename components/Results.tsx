@@ -79,7 +79,7 @@ const Results = ({navigation, route}: Props) => {
         </View>
         {(Object.keys(raceData) as Array<keyof raceData>).map((key,i) => {
           return (
-            <View key={key} style={styles.row}>
+            <View key={key} style={styles.row} testID = {`${key}`}>
               <View style={styles.race}>
                 <Image style={styles.raceImage} source={raceIcon[key]} />
                 <Text style={styles.text}>{fixString(key)}</Text>
@@ -88,6 +88,7 @@ const Results = ({navigation, route}: Props) => {
                 {raceData[key] !== null ? (
                   <>
                     <Image
+                      accessibilityLabel = 'leagueImage'
                       style={styles.leagueImage}
                       source={leagueIcon[raceData[key]!.leagueName]}
                     />
