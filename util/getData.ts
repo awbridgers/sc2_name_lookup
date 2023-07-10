@@ -5,7 +5,7 @@ export const getReplayStatsData = async (name: string): Promise<number> => {
     const data = await fetch(`https://api.sc2replaystats.com/player/search`, {
       method: 'post',
       headers: {
-        Authorization: process.env.auth as string,
+        Authorization: process.env.EXPO_PUBLIC_AUTH as string,
         'Content-Type': 'application/x-www-form-urlencoded',
         Accept: 'application/json',
       },

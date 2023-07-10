@@ -37,8 +37,9 @@ export default function Home({navigation}: Props) {
   const [loading, setLoading] = useState<boolean>(false);
   const cameraRef = useRef<Camera>(null);
   const prevData = useRef<Data | null>(null);
-  const token = useToken(process.env.clientID as string, process.env.secret as string);
-  console.log(process.env)
+  const clientID = useRef<string>(process.env.EXPO_PUBLIC_CLIENT_ID as string).current;
+  const secret = useRef<string>(process.env.EXPO_PUBLIC_SECRET as string).current
+  const token = useToken(clientID, secret);
   const takePic = async () => {
     if (permission && permission.granted) {
       if (token) {
