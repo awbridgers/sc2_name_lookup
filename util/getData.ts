@@ -1,4 +1,3 @@
-import {auth} from '../config';
 import {Alert} from 'react-native';
 import {Data, FetchError} from '../types';
 export const getReplayStatsData = async (name: string): Promise<number> => {
@@ -6,7 +5,7 @@ export const getReplayStatsData = async (name: string): Promise<number> => {
     const data = await fetch(`https://api.sc2replaystats.com/player/search`, {
       method: 'post',
       headers: {
-        Authorization: auth,
+        Authorization: process.env.auth as string,
         'Content-Type': 'application/x-www-form-urlencoded',
         Accept: 'application/json',
       },

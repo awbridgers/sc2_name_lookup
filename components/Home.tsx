@@ -17,7 +17,7 @@ import {useCallback, useEffect, useRef, useState} from 'react';
 import MlkitOcr from 'react-native-mlkit-ocr';
 import {StarCraft2API} from 'starcraft2-api';
 import base64 from 'react-native-base64';
-import {auth, clientID, secret} from '../config';
+//import {auth, clientID, secret} from '../config';
 import Results from './Results';
 import {sampleData} from '../sampleData';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
@@ -37,8 +37,8 @@ export default function Home({navigation}: Props) {
   const [loading, setLoading] = useState<boolean>(false);
   const cameraRef = useRef<Camera>(null);
   const prevData = useRef<Data | null>(null);
-  const token = useToken(clientID, secret);
-
+  const token = useToken(process.env.clientID as string, process.env.secret as string);
+  console.log(process.env)
   const takePic = async () => {
     if (permission && permission.granted) {
       if (token) {
