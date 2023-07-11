@@ -129,7 +129,7 @@ export default function Home({navigation}: Props) {
   return (
     <View style={styles.container}>
       <View style = {styles.titleView}>
-        <Text style = {styles.title}>SC2 Name Search</Text>
+        <Text style = {styles.title}>SC2 Stats</Text>
       </View>
       <View style = {styles.bodyView}>
         <Modal testID = 'loading' visible={loading} animationType="fade" transparent={true}>

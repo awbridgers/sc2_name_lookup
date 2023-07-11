@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "SC2 Name Scanner",
-    "slug": "sc2-name-lookup",
+    "name": "SC2 Stats",
+    "slug": "sc2-stats",
     "jsEngine": "jsc",
     "version": "1.0.0",
     "orientation": "portrait",

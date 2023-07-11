@@ -1,4 +1,4 @@
-# SC2 Name Search
+# SC2 Stats
 <p><img alt="Supports Expo Android" longdesc="Supports Expo Android" src="https://img.shields.io/badge/Android-4630EB.svg?style=flat-square&logo=ANDROID&labelColor=A4C639&logoColor=fff" />
 <p>
 A react native app to search for starcraft2 users and display information about their account. 
