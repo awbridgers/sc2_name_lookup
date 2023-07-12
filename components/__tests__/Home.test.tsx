@@ -53,7 +53,7 @@ describe('Home Component', () => {
   describe('basic rendering', () => {
     it('should render the homepage', async () => {
       render(<Home {...props} />);
-      expect(screen.getByText('SC2 Name Search')).toBeTruthy();
+      expect(screen.getByText('SC2 Stats')).toBeTruthy();
     });
   });
   describe('Camera Button/Modal', () => {
