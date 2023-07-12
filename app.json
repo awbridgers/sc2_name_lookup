@@ -17,22 +17,21 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.awbridgers.sc2namelookup"
+      "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#000000"
       },
-      "package": "com.awbridgers.sc2namelookup"
+      "package": "com.awbridgers.sc2stats"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "28f59cf2-4d8b-4bea-8ba4-7f6739682528"
+        "projectId": "0e6e7839-b924-44be-8f7b-f6dde819d453"
       }
     },
     "plugins": [
