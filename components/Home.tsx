@@ -62,7 +62,7 @@ export default function Home({navigation}: Props) {
             return x.text;
           });
           const userName = fixName(textArray);
-          console.log(userName);
+          //console.log(userName);
           if (userName) {
             try {
               const id = await getReplayStatsData(userName);
@@ -99,6 +99,7 @@ export default function Home({navigation}: Props) {
             ? +name
             : await getReplayStatsData(name);
           const stats = await getBattleNetStats(id, token, server);
+          //console.log(stats.ladder.showCaseEntries)
           prevData.current = stats;
           setLoading(false);
           navigation.push('Results', {data: stats});

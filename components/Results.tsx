@@ -42,7 +42,7 @@ const Results = ({navigation, route}: Props) => {
         <Text style={styles.name}>{data.summary.displayName}</Text>
         <Text style={styles.subTitle}>
           Season Record: {record.wins}-{record.games - record.wins} (
-          {Math.round((record.wins * 100) / record.games)}%)
+          {record.games > 0 ? Math.round((record.wins * 100) / record.games) : 0}%)
         </Text>
       </View>
       <View style={styles.leagueHigh}>
