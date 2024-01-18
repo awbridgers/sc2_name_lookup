@@ -1,6 +1,7 @@
 import {StatusBar} from 'expo-status-bar';
 import {
   StyleSheet,
+  KeyboardAvoidingView,
   Text,
   View,
   Modal,
@@ -23,8 +24,9 @@ import {sampleData} from '../sampleData';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {Data, FetchError, RootStackParamsList} from '../types';
 import {getBattleNetStats, getReplayStatsData} from '../util/getData';
-import { fixName } from '../util/fixName';
-import { useToken } from '../hooks/useToken';
+import {fixName} from '../util/fixName';
+import {useToken} from '../hooks/useToken';
+import {RadioButton} from 'react-native-paper';
 
 type Props = NativeStackScreenProps<RootStackParamsList, 'Home'>;
 
@@ -37,8 +39,13 @@ export default function Home({navigation}: Props) {
   const [loading, setLoading] = useState<boolean>(false);
   const cameraRef = useRef<Camera>(null);
   const prevData = useRef<Data | null>(null);
-  const clientID = useRef<string>(process.env.EXPO_PUBLIC_CLIENT_ID as string).current;
-  const secret = useRef<string>(process.env.EXPO_PUBLIC_SECRET as string).current
+  const [server, setServer] = useState<string>('1');
+  const clientID = useRef<string>(
+    process.env.EXPO_PUBLIC_CLIENT_ID as string
+  ).current;
+  const secret = useRef<string>(
+    process.env.EXPO_PUBLIC_SECRET as string
+  ).current;
   const token = useToken(clientID, secret);
   const takePic = async () => {
     if (permission && permission.granted) {
@@ -55,13 +62,13 @@ export default function Home({navigation}: Props) {
             return x.text;
           });
           const userName = fixName(textArray);
-          console.log(userName)
+          console.log(userName);
           if (userName) {
             try {
               const id = await getReplayStatsData(userName);
-              const stats = await getBattleNetStats(id, token);
-              setLoading(false)
-              navigation.navigate('Results', {data: stats})
+              const stats = await getBattleNetStats(id, token, server);
+              setLoading(false);
+              navigation.navigate('Results', {data: stats});
             } catch (e) {
               setLoading(false);
               if (e instanceof FetchError) {
@@ -91,9 +98,9 @@ export default function Home({navigation}: Props) {
           const id = /[\d]+/.test(name)
             ? +name
             : await getReplayStatsData(name);
-          const stats = await getBattleNetStats(id, token);
+          const stats = await getBattleNetStats(id, token, server);
           prevData.current = stats;
-          setLoading(false)
+          setLoading(false);
           navigation.push('Results', {data: stats});
         } catch (e) {
           setLoading(false);
@@ -123,18 +130,23 @@ export default function Home({navigation}: Props) {
     }
   }, [permission]);
 
-
-  
-
   return (
     <View style={styles.container}>
-      <View style = {styles.titleView}>
-        <Text style = {styles.title}>SC2 Stats</Text>
+      <View style={styles.titleView}>
+        <Text style={styles.title}>SC2 Stats</Text>
       </View>
-      <View style = {styles.bodyView}>
-        <Modal testID = 'loading' visible={loading} animationType="fade" transparent={true}>
+      <View style={styles.bodyView}>
+        <Modal
+          testID="loading"
+          visible={loading}
+          animationType="fade"
+          transparent={true}
+        >
           <View style={styles.loading}>
-            <ActivityIndicator testID = 'spinner' size={Platform.OS === 'android' ? 150 : 'large'} />
+            <ActivityIndicator
+              testID="spinner"
+              size={Platform.OS === 'android' ? 150 : 'large'}
+            />
           </View>
         </Modal>
         <Modal
@@ -161,31 +173,53 @@ export default function Home({navigation}: Props) {
             </TouchableOpacity>
           </View>
         </Modal>
-        <View style={styles.toggleCamera}>
-          <TouchableOpacity
-            style={styles.cameraButton}
-            onPress={() => setShowModal(!showModal)}
+        <KeyboardAvoidingView>
+          <View style={styles.toggleCamera}>
+            <TouchableOpacity
+              style={styles.cameraButton}
+              onPress={() => setShowModal(!showModal)}
+            >
+              <Text style={{fontSize: 20}}>Toggle Camera</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.spacer}>
+            <Text style={styles.name}>-OR-</Text>
+          </View>
+          <View style={styles.search}>
+            <Text style={styles.name}>Enter a name or BattleNet ID</Text>
+            <TextInput
+              onChangeText={setName}
+              style={styles.searchBar}
+              value={name}
+              placeholder="Enter name here"
+            />
+            <TouchableOpacity
+              onPress={() => getData(name)}
+              style={styles.cameraButton}
+            >
+              <Text style={{fontSize: 20}}>Search</Text>
+            </TouchableOpacity>
+          </View>
+        </KeyboardAvoidingView>
+        <View style={styles.server}>
+          <Text style={styles.serverTitle}>Server</Text>
+          <RadioButton.Group
+            value={server}
+            onValueChange={(value) => setServer(value)}
           >
-            <Text style={{fontSize: 20}}>Toggle Camera</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.spacer}>
-          <Text style={styles.name}>-OR-</Text>
-        </View>
-        <View style={styles.search}>
-          <Text style={styles.name}>Enter a name or BattleNet ID</Text>
-          <TextInput
-            onChangeText={setName}
-            style={styles.searchBar}
-            value={name}
-            placeholder='Enter name here'
-          />
-          <TouchableOpacity
-            onPress={() => getData(name)}
-            style={styles.cameraButton}
-          >
-            <Text style={{fontSize: 20}}>Search</Text>
-          </TouchableOpacity>
+            <View style={styles.serverRadioOption}>
+              <RadioButton color="#00B4FF" value="1" />
+              <Text style={styles.radioLabel}>America</Text>
+            </View>
+            <View style={styles.serverRadioOption}>
+              <RadioButton color="#00B4FF" value="2" />
+              <Text style={styles.radioLabel}>Europe</Text>
+            </View>
+            <View style={styles.serverRadioOption}>
+              <RadioButton color="#00B4FF" value="3" />
+              <Text style={styles.radioLabel}>Asia</Text>
+            </View>
+          </RadioButton.Group>
         </View>
       </View>
     </View>
@@ -266,20 +300,36 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     margin: 25,
   },
-  title:{
+  title: {
     color: '#00B4FF',
     fontSize: 40,
   },
-  titleView:{
+  titleView: {
     alignItems: 'center',
     //backgroundColor: 'orange',
     justifyContent: 'center',
-    flex: 2
+    flex: 1,
   },
-  bodyView:{
-    //backgroundColor: 'green',
-    justifyContent: 'flex-start',
-    flex: 5,
-    
+  bodyView: {
+    //backgroundColor: 'blue',
+    justifyContent: 'space-around',
+    flex: 3,
+  },
+  server: {
+    alignItems: 'center',
+    //backgroundColor: 'green'
+  },
+  serverTitle: {
+    color: 'white',
+    fontSize: 25,
+    padding: 10,
+  },
+  serverRadioOption: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  radioLabel: {
+    color: 'white',
+    fontSize: 18,
   },
 });

@@ -40,7 +40,8 @@ export const getReplayStatsData = async (name: string): Promise<number> => {
 
 export const getBattleNetStats = async (
   id: number,
-  token: string
+  token: string,
+  region: string,
 ): Promise<Data> => {
   try {
     const profileData = await fetch(
@@ -54,7 +55,7 @@ export const getBattleNetStats = async (
     );
     const profile = await profileData.json();
     const ladderData = await fetch(
-      `https://us.api.blizzard.com/sc2/profile/1/1/${id}/ladder/summary`,
+      `https://us.api.blizzard.com/sc2/profile/${region}/1/${id}/ladder/summary`,
       {
         method: 'get',
         headers: {
